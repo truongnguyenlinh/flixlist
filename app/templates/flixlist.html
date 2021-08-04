@@ -1,8 +1,43 @@
 {% extends 'header.html' %} {% block content %}
+
 <div class="container">
+  <div class="row justify-content-md-center">
+    <div class="col-md-auto">
+      <h1>FlixList</h1>
+    </div>
+  </div>
+  <div class="row justify-content-md-center">
+    <div class="col-md-auto">
+      <div class="dropdown show">
+        <a
+          class="btn btn-primary btn-lg dropdown-toggle"
+          href="#"
+          role="button"
+          id="dropdownMenuList"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+          style="background-color: #e50914"
+        >
+          My List
+        </a>
+
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+          <a class="dropdown-item" href="#">Currently Watching</a>
+          <a class="dropdown-item" href="#">Completed</a>
+          <a class="dropdown-item" href="#">On Hold</a>
+          <a class="dropdown-item" href="#">Dropped</a>
+          <a class="dropdown-item" href="#">Plan to Watch</a>
+          <a class="dropdown-item" href="#">All Shows</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% for row in range(rows) %}
   <div class="row justify-content-center">
+    {% for col in range(4) %}
     <div class="col">
-      <div class="card project_card" style="width: 18rem">
+      <div class="card project_card" style="width: auto">
         <img
           src="/static/img/construction.jpg"
           class="card-img-top"
@@ -10,71 +45,19 @@
         />
         <div class="card-body">
           <h5 class="card-title">Movie (1995)</h5>
-          <p class="card-text">Platform</p>¨
+          <p class="card-text">Platform</p>
           <p class="card-text">Personal rating</p>
-          <p class="card-text">Rating: </p>
-          <p class="card-text">TV Show </p>
-          <p class="card-text">Tags </p>
-          <a href="#" class="btn btn-primary" style="background-color: #E50914;">Go somewhere</a>
+          <p class="card-text">Rating:</p>
+          <p class="card-text">TV Show</p>
+          <p class="card-text">Tags</p>
+          <a href="#" class="btn btn-primary" style="background-color: #e50914"
+            >Go somewhere</a
+          >
         </div>
       </div>
     </div>
-    <div class="col">
-        <div class="card project_card" style="width: 18rem">
-          <img
-            src="/static/img/construction.jpg"
-            class="card-img-top"
-            alt="..."
-          />
-          <div class="card-body">
-            <h5 class="card-title">Movie (1995)</h5>
-            <p class="card-text">Platform</p>¨
-            <p class="card-text">Personal rating</p>
-            <p class="card-text">Rating: </p>
-            <p class="card-text">TV Show </p>
-            <p class="card-text">Tags </p>
-            <a href="#" class="btn btn-primary" style="background-color: #E50914;">Go somewhere</a>
-          </div>
-        </div>
-    </div>
+    {% endfor %}
   </div>
-  <div class="row justify-content-center">
-    <div class="col">
-      <div class="card project_card" style="width: 18rem">
-        <img
-          src="/static/img/construction.jpg"
-          class="card-img-top"
-          alt="..."
-        />
-        <div class="card-body">
-          <h5 class="card-title">Movie (1995)</h5>
-          <p class="card-text">Platform</p>¨
-          <p class="card-text">Personal rating</p>
-          <p class="card-text">Rating: </p>
-          <p class="card-text">TV Show </p>
-          <p class="card-text">Tags </p>
-          <a href="#" class="btn btn-primary" style="background-color: #E50914;">Go somewhere</a>
-        </div>
-      </div>
-    </div>
-    <div class="col">
-        <div class="card project_card" style="width: 18rem">
-          <img
-            src="/static/img/construction.jpg"
-            class="card-img-top"
-            alt="..."
-          />
-          <div class="card-body">
-            <h5 class="card-title">Movie (1995)</h5>
-            <p class="card-text">Platform</p>¨
-            <p class="card-text">Personal rating</p>
-            <p class="card-text">Rating: </p>
-            <p class="card-text">TV Show </p>
-            <p class="card-text">Tags </p>
-            <a href="#" class="btn btn-primary" style="background-color: #E50914;">Go somewhere</a>
-          </div>
-        </div>
-    </div>
-  </div>
+  {% endfor %}
 </div>
 {% endblock %}

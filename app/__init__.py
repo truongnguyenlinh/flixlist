@@ -5,4 +5,5 @@ app = Flask(__name__)
 
 @app.route("/flixlist")
 def flixlist():
-    return render_template("flixlist.html", title="FlixList")
+    rows = 10
+    return render_template("flixlist.html", title="FlixList", rows=rows)
