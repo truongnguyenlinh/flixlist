@@ -3,34 +3,81 @@
 <div class="container">
   <div class="row justify-content-md-center">
     <div class="col-md-auto">
-      <h1>FlixList</h1>
+      <img src="/static/img/flixlist_logo.png" alt="..." class="img-fluid" />
     </div>
   </div>
   <div class="row justify-content-md-center">
     <div class="col-md-auto">
-      <div class="dropdown show">
-        <a
-          class="btn btn-primary btn-lg dropdown-toggle"
-          href="#"
-          role="button"
-          id="dropdownMenuList"
+      <div class="dropdown">
+        <button
+          type="button"
+          class="btn btn-lg btn-secondary dropdown-toggle dropdown-toggle-split"
           data-toggle="dropdown"
           aria-haspopup="true"
           aria-expanded="false"
-          style="background-color: #e50914"
+          style="
+            background-color: #e50914;
+            margin-bottom: 10px;
+            margin-top: 10px;
+          "
         >
-          My List
-        </a>
+          {{menu_item}}
+        </button>
 
         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-          <a class="dropdown-item" href="#">Currently Watching</a>
-          <a class="dropdown-item" href="#">Completed</a>
-          <a class="dropdown-item" href="#">On Hold</a>
-          <a class="dropdown-item" href="#">Dropped</a>
-          <a class="dropdown-item" href="#">Plan to Watch</a>
-          <a class="dropdown-item" href="#">All Shows</a>
+          <a
+            class="dropdown-item"
+            href="{{url_for('flixlist', menu_item='Currently Watching')}}"
+            >Currently Watching</a
+          >
+          <a
+            class="dropdown-item"
+            href="{{url_for('flixlist', menu_item='Completed')}}"
+            >Completed</a
+          >
+          <a
+            class="dropdown-item"
+            href="{{url_for('flixlist', menu_item='On Hold')}}"
+            >On Hold</a
+          >
+          <a
+            class="dropdown-item"
+            href="{{url_for('flixlist', menu_item='Dropped')}}"
+            >Dropped</a
+          >
+          <a
+            class="dropdown-item"
+            href="{{url_for('flixlist', menu_item='Plan to Watch')}}"
+            >Plan to Watch</a
+          >
+          <a
+            class="dropdown-item"
+            href="{{url_for('flixlist', menu_item='All Shows')}}"
+            >All Shows</a
+          >
         </div>
       </div>
+    </div>
+    <div class="col-md-auto">
+      <form class="form-inline">
+        <input
+          class="form-control form-control-lg"
+          type="search"
+          placeholder="Search"
+          aria-label="Search"
+        />
+        <button
+          class="btn btn-primary btn-lg"
+          type="submit"
+          style="
+            background-color: #e50914;
+            margin-bottom: 10px;
+            margin-top: 10px;
+          "
+        >
+          Search
+        </button>
+      </form>
     </div>
   </div>
   {% for row in range(rows) %}
