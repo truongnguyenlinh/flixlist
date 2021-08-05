@@ -1,0 +1,51 @@
+<!--
+    RecsFlix: Tracks recommendations by peers. Option to link users profile or specify person if they are not registered.
+              Can have tags including: duration estimate (<30min, <60min, etc.), type of series (show, movie, anime, 
+              short/temp series), genre (perhaps extracted), recommended  by:, etc.
+-->
+
+{% extends 'header.html' %} {% block content %}
+
+<div class="container">
+  <div class="row justify-content-md-center">
+    <div class="col-md-auto">
+      <h1>FriendFlix</h1>
+    </div>
+  </div>
+  <!-- 
+  <div class="row justify-content-md-center">
+    <div class="col-md-auto">
+
+    </div>
+  </div>
+  -->
+  {% for row in range(rows) %}
+  <div class="row justify-content-center">
+    {% for col in range(8) %}
+    <div class="col">
+      <div class="card project_card" style="width: auto">
+        <img
+          src="/static/img/construction.jpg"
+          class="card-img-top"
+          alt="..."
+        />
+        <div class="card-body">
+            <h5 class="card-title">Movie (1995) {user.image}</h5>
+            <p class="card-text">Platform:</p>
+            <p class="card-text">Duration:</p>
+            <p class="card-text">Type:</p>
+            <p class="card-text">Genre:</p>
+            <p class="card-text">Rating:</p>
+            <p class="card-text">Tags</p>
+            <p class="card-text">Recommended by: {user}</p>
+          <a href="#" class="btn btn-primary" style="background-color: #e50914"
+            >Add to FlixList</a
+          >
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}
