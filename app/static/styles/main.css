@@ -1,0 +1,19 @@
+.stats-block-1 {
+  background-color: #1eb5e7;
+  height: 40px;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.stats-block-2 {
+  background-color: #273e72;
+  height: 40px;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.shows-detail {
+  font-size: 20px;
+  margin: 10px;
+  color: aliceblue;
+}
