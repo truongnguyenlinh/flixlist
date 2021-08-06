@@ -14,3 +14,7 @@ def flixlist(menu_item):
 @app.route("/shows/<show_id>")
 def show_details(show_id):
     return render_template("show_details.html", title=show_id, show_id=show_id)
+
+@app.route("/login", methods=("GET", "POST"))
+def login():
+    return render_template("login.html", title="Login")
