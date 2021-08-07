@@ -29,7 +29,7 @@ class User(db.Model):
 
     @property
     def password(self):
-        raise AttributeError('password is not a readable attribute.')
+        raise AttributeError("password is not a readable attribute.")
 
     @password.setter
     def password(self, password):
@@ -39,7 +39,7 @@ class User(db.Model):
         return check_password_hash(self.password_hash, password)
 
     def __repr__(self):
-        return '<User: {}>'.format(self.username)
+        return "<User: {}>".format(self.username)
 
 
 @login_manager.user_loader
@@ -55,7 +55,9 @@ def home():
 @app.route("/flixlist/<menu_item>")
 def flixlist(menu_item):
     rows = 10
-    return render_template("flixlist.html", title="FlixList", menu_item=menu_item, rows=rows)
+    return render_template(
+        "flixlist.html", title="FlixList", menu_item=menu_item, rows=rows
+    )
 
 
 if __name__ == "__main__":
