@@ -6,7 +6,6 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
 
-
 app = Flask(__name__)
 app.config.from_object("config.Config")
 db = SQLAlchemy(app)
@@ -56,6 +55,16 @@ def home():
 def flixlist(menu_item):
     rows = 10
     return render_template("flixlist.html", title="FlixList", menu_item=menu_item, rows=rows)
+
+@app.route("/friendlist")
+def friendflix():
+    rows = 3
+    return render_template("friendflix.html", title="Friend List", rows=rows)
+
+@app.route("/recommendations")
+def recsflix():
+    rows = 3
+    return render_template("recommendations.html", title="Recommendations", rows=rows)
 
 
 if __name__ == "__main__":
