@@ -17,3 +17,27 @@
   margin: 10px;
   color: aliceblue;
 }
+/* ========================= friendlist ========================= */
+
+.card-user-card {
+  border-radius: 50%;
+}
+
+/* ========================= footer ========================= */
+
+h4 > a {
+  margin-right: 10px;
+  margin-left: 10px;
+  color: #56c6aa;
+}
+
+h4 > a:hover {
+  color: #2cc2f1;
+}
+
+footer {
+  margin-top: 200px;
+  text-align: center;
+}
+
+/* =========================  ========================= */
