@@ -1,0 +1,56 @@
+{% extends 'header.html' %} {% block content %}
+
+<div class="container">
+  <div class="row justify-content-md-center">
+    <div class="col-md-auto">
+      <h1>Friend List</h1>
+    </div>
+  </div>
+  <!-- 
+  <div class="row justify-content-md-center">
+    <div class="col-md-auto">
+
+    </div>
+  </div>
+  -->
+  {% for row in range(rows) %}
+  <div class="row justify-content-center">
+    {% for col in range(7) %}
+    <div class="col">
+      <div class="card-user-card" style="width: auto">
+        <img
+          src="/static/img/construction.jpg"
+          class="card-img-top"
+          alt="..."
+        />
+        <div class="card-body">
+          <h5 class="card-title">User</h5>
+          <p class="card-text">Last active:</p>
+          <a href="#" class="btn btn-primary" style="background-color: #e50914"
+            >View FlixList</a
+          >
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% endfor %}
+</div>
+<body>
+  <footer class="footer-container text-center">
+      <div class="container">
+          <div class="row">
+              <div class="col-xs-12">
+                  <p>
+                      Made with 💜 by <a href="https://github.com/Hunajpu" target="_blank" rel="noopener noreferrer">Rodrigo Luna Reyes</a>, <a href="https://github.com/truongnguyenlinh" target="_blank" rel="noopener noreferrer">Linh Truong</a>  and <a href="https://github.com/nanonite9" target="_blank" rel="noopener noreferrer">Ayana Nithey</a>.
+                  </p>
+              </div>
+          </div>
+      </div>
+  </footer>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+{% endblock %}
