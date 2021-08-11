@@ -18,6 +18,9 @@ class MovieRequest:
         BASE_URL + "/movie/top_rated?api_key=" + API_KEY + "&language=en-US&page=1"
     )
 
+    def movie_details(movie_id):
+        return BASE_URL + "/movie/" + movie_id + "?api_key=" + API_KEY
+
 
 # =====================================================
 
@@ -71,8 +74,6 @@ def flixlist(menu_item):
     response = requests.get(MovieRequest.TOP_RATED)
     movies_data = response.json()
     movies_data = movies_data["results"]
-    # rows = len(movies_data["results"]) / 4
-    # print("Name: ", movies_data["results"][0]["original_title"])
     return render_template(
         "flixlist.html",
         title="FlixList",
@@ -95,7 +96,14 @@ def recsflix():
 
 @app.route("/shows/<show_id>")
 def show_details(show_id):
-    return render_template("show_details.html", title=show_id, show_id=show_id)
+    response = requests.get(MovieRequest.movie_details(show_id))
+    movie = response.json()
+    return render_template(
+        "show_details.html",
+        title=movie["original_title"],
+        show_id=show_id,
+        movie=movie,
+    )
 
 
 @app.route("/login", methods=("GET", "POST"))
