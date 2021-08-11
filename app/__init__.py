@@ -1,10 +1,25 @@
 import os
+import requests
 from flask_login import UserMixin
 from flask import Flask, escape, request, render_template, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
+
+# Constants for TMDB API
+# =====================================================
+API_KEY = "2cdd90f4142bcd5916204135c23506df"
+BASE_URL = "https://api.themoviedb.org/3"
+
+
+class MovieRequest:
+    TOP_RATED = (
+        BASE_URL + "/movie/top_rated?api_key=" + API_KEY + "&language=en-US&page=1"
+    )
+
+
+# =====================================================
 
 app = Flask(__name__)
 app.config.from_object("config.Config")
@@ -53,15 +68,24 @@ def home():
 
 @app.route("/flixlist/<menu_item>")
 def flixlist(menu_item):
-    rows = 10
+    response = requests.get(MovieRequest.TOP_RATED)
+    movies_data = response.json()
+    movies_data = movies_data["results"]
+    # rows = len(movies_data["results"]) / 4
+    # print("Name: ", movies_data["results"][0]["original_title"])
     return render_template(
-        "flixlist.html", title="FlixList", menu_item=menu_item, rows=rows
+        "flixlist.html",
+        title="FlixList",
+        menu_item=menu_item,
+        movies_data=movies_data,
     )
+
 
 @app.route("/friendlist")
 def friendflix():
     rows = 3
     return render_template("friendflix.html", title="Friend List", rows=rows)
+
 
 @app.route("/recommendations")
 def recsflix():
