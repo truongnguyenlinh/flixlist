@@ -3,7 +3,7 @@
   <div class="row justify-content-md-center">
     <div class="col-md-auto">
       <img
-        src="/static/img/flixlist_logo.png"
+        src="/static/img/flixlist_logo2.png"
         alt="FlixList"
         class="img-fluid"
       />
@@ -85,22 +85,35 @@
   </div>
   <div class="row justify-content-center">
     {% for movie in movies_data %}
-    <div class="col">
-      <div class="card project_card" style="width: auto">
+    <div class="col card-group">
+      <div
+        class="card text-white"
+        style="width: auto; background-color: #213465; border-color: #070525"
+      >
         <img
           src="https://image.tmdb.org/t/p/original/{{ movie['poster_path'] }}"
           class="card-img-top"
           alt="{{ movie['title'] }}"
         />
         <div class="card-body">
+          <span class="badge badge-pill badge-success">Currently Watching</span>
           <h5 class="card-title">
             {{ movie['title'] }} ({{ movie['release_date'] }})
           </h5>
-          <span class="badge badge-pill badge-success">Currently Watching</span>
+          <h5 class="card-text" style="color: #213465">White Space</h5>
+
           <a
             href="{{url_for('show_details', show_id=movie['id'])}}"
             class="btn btn-primary"
-            style="background-color: #e50914"
+            style="
+              background-color: #e50914;
+              border-color: #213465;
+              position: absolute;
+              bottom: 0;
+              left: 0;
+              right: 0;
+              margin: auto;
+            "
             >Details</a
           >
         </div>

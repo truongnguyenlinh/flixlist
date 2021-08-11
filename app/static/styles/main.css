@@ -1,3 +1,27 @@
+/* ========================= Global ========================= */
+img {
+  max-width: 300px;
+  max-height: 100em;
+}
+body {
+  background-color: #070525;
+}
+p {
+  color: white;
+}
+a {
+  color: white;
+}
+h2 {
+  color: white;
+}
+h3 {
+  color: white;
+}
+h5 {
+  color: white;
+}
+/* ========================= show_details ========================= */
 .stats-block-1 {
   background-color: #1eb5e7;
   height: 40px;
@@ -17,6 +41,7 @@
   margin: 10px;
   color: aliceblue;
 }
+
 /* ========================= friendlist ========================= */
 
 .card-user-card {
