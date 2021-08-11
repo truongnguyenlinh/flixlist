@@ -90,11 +90,11 @@
         <img
           src="https://image.tmdb.org/t/p/original/{{ movie['poster_path'] }}"
           class="card-img-top"
-          alt="{{ movie['original_title'] }}"
+          alt="{{ movie['title'] }}"
         />
         <div class="card-body">
           <h5 class="card-title">
-            {{ movie['original_title'] }} ({{ movie['release_date'] }})
+            {{ movie['title'] }} ({{ movie['release_date'] }})
           </h5>
           <span class="badge badge-pill badge-success">Currently Watching</span>
           <a
