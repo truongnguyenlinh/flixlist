@@ -4,8 +4,8 @@
         <div class="media">
         <img class="align-self-center mr-3" src="https://image.tmdb.org/t/p/original/{{ movie['poster_path'] }}" />
         <div class="media-body">
-            <h3 class="mt-0">{{ movie['title'] }}</h5>
-            <h5 class="mt-0">{{ movie['release_date'] }}</h5>
+            <h3 class="mt-0">{{ movie[info_to_display[0]] }}</h5>
+            <h5 class="mt-0">{{ movie[info_to_display[1]].split("-")[0] }}</h5>
             <h4 class="mt-0">Synopsis</h5>
             <p>
               {{ movie['overview'] }}

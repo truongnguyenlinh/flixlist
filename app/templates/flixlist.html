@@ -55,8 +55,13 @@
           >
           <a
             class="dropdown-item"
-            href="{{url_for('flixlist', menu_item='All Shows')}}"
-            >All Shows</a
+            href="{{url_for('flixlist', menu_item='Movies')}}"
+            >Movies</a
+          >
+          <a
+            class="dropdown-item"
+            href="{{url_for('flixlist', menu_item='TV Shows')}}"
+            >TV Shows</a
           >
         </div>
       </div>
@@ -98,12 +103,13 @@
         <div class="card-body">
           <span class="badge badge-pill badge-success">Currently Watching</span>
           <h5 class="card-title">
-            {{ movie['title'] }} ({{ movie['release_date'] }})
+            {{ movie[info_to_display[0]] }} ({{
+            movie[info_to_display[1]].split("-")[0] }})
           </h5>
           <h5 class="card-text" style="color: #213465">White Space</h5>
 
           <a
-            href="{{url_for('show_details', show_id=movie['id'])}}"
+            href="{{ url_for('details', type=info_to_display[2], id=movie['id']) }}"
             class="btn btn-primary"
             style="
               background-color: #e50914;
