@@ -62,7 +62,9 @@
             <span class="shows-detail">{{ movie['vote_average'] }}</span>
         </div>
         <div class="col stats-block-2" style="margin-top: 0px;">
-            <span class="shows-detail">Netflix</span>
+            {% for provider in providers %}
+            <p class="shows-detail">{{ provider['provider_name'] }}</p>
+            {% endfor %}
         </div>
         <div class="col stats-block-1" style="margin-top: 0px;">
             <span class="shows-detail">On Hold</span>

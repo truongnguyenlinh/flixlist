@@ -24,8 +24,14 @@ class MovieRequest:
     def movie_details(movie_id):
         return BASE_URL + "/movie/" + movie_id + "?api_key=" + API_KEY
 
+    def movie_providers(movie_id):
+        return BASE_URL + "/movie/" + movie_id + "/watch/providers?api_key=" + API_KEY
+
     def tv_details(tv_id):
         return BASE_URL + "/tv/" + tv_id + "?api_key=" + API_KEY
+
+    def tv_providers(tv_id):
+        return BASE_URL + "/tv/" + tv_id + "/watch/providers?api_key=" + API_KEY
 
     def search_movie(query):
         return (
@@ -143,19 +149,29 @@ def recsflix():
 
 @app.route("/details/<type>/<id>")
 def details(type, id):
+
+    # Get movies details and streming providers
     if type == "Movies":
         response = requests.get(MovieRequest.movie_details(id))
+        providers = requests.get(MovieRequest.movie_providers(id))
         info_to_display = ["title", "release_date", "Movies"]
     elif type == "TV Shows":
         response = requests.get(MovieRequest.tv_details(id))
+        providers = requests.get(MovieRequest.tv_providers(id))
         info_to_display = ["name", "first_air_date", "TV Shows"]
     movie = response.json()
+    try:
+        providers = providers.json()["results"]["US"]["flatrate"]
+    except:
+        providers = [{"provider_name": "Not found"}]
+
     return render_template(
         "show_details.html",
         title=movie[info_to_display[0]],
         id=id,
         movie=movie,
         info_to_display=info_to_display,
+        providers=providers,
     )
 
 
