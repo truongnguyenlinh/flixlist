@@ -27,6 +27,26 @@ class MovieRequest:
     def tv_details(tv_id):
         return BASE_URL + "/tv/" + tv_id + "?api_key=" + API_KEY
 
+    def search_movie(query):
+        return (
+            BASE_URL
+            + "/search/movie?api_key="
+            + API_KEY
+            + "&language=en-US&query="
+            + query
+            + "&page=1"
+        )
+
+    def search_tv(query):
+        return (
+            BASE_URL
+            + "/search/tv?api_key="
+            + API_KEY
+            + "&language=en-US&query="
+            + query
+            + "&page=1"
+        )
+
 
 # =====================================================
 
@@ -77,14 +97,29 @@ def home():
 
 @app.route("/flixlist/<menu_item>")
 def flixlist(menu_item):
-    if menu_item == "Movies":
-        response = requests.get(MovieRequest.TOP_RATED)
-        info_to_display = ["title", "release_date", "Movies"]
-    elif menu_item == "TV Shows":
-        response = requests.get(MovieRequest.TOP_RATED_TV)
-        info_to_display = ["name", "first_air_date", "TV Shows"]
+
+    # Check search button
+    query = request.args.get("search")
+    if query == None:
+        # Get Movies/TV Shows info
+        if menu_item == "Movies":
+            response = requests.get(MovieRequest.TOP_RATED)
+            info_to_display = ["title", "release_date", "Movies"]
+        elif menu_item == "TV Shows":
+            response = requests.get(MovieRequest.TOP_RATED_TV)
+            info_to_display = ["name", "first_air_date", "TV Shows"]
+    else:
+        # Search
+        if menu_item == "Movies":
+            response = requests.get(MovieRequest.search_movie(query))
+            info_to_display = ["title", "release_date", "Movies"]
+        elif menu_item == "TV Shows":
+            response = requests.get(MovieRequest.search_tv(query))
+            info_to_display = ["name", "first_air_date", "TV Shows"]
+
     movies_data = response.json()
     movies_data = movies_data["results"]
+
     return render_template(
         "flixlist.html",
         title="FlixList",
@@ -97,7 +132,7 @@ def flixlist(menu_item):
 @app.route("/friendlist")
 def friendflix():
     rows = 3
-    return render_template("friendflix.html", title="Friend List", rows=rows)
+    return render_template("friendlist.html", title="Friend List", rows=rows)
 
 
 @app.route("/recommendations")
