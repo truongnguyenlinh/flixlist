@@ -5,16 +5,24 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
+from . import db
 
 app = Flask(__name__)
-app.config.from_object("config.Config")
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://{user}:{passwd}@{host}:{port}/{table}'.format(
+    user=os.getenv('POSTGRES_USER'),
+    passwd=os.getenv('POSTGRES_PASSWORD'),
+    host=os.getenv('POSTGRES_HOST'),
+    port=5432,
+    table=os.getenv('POSTGRES_DB'))
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
+
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_message = "You must be logged in to access this page."
 login_manager.login_view = "auth.login"
-
 
 class User(db.Model):
     __tablename__ = "users"
@@ -28,7 +36,7 @@ class User(db.Model):
 
     @property
     def password(self):
-        raise AttributeError('password is not a readable attribute.')
+        raise AttributeError('Password is not a readable attribute.')
 
     @password.setter
     def password(self, password):
@@ -47,6 +55,7 @@ class User(db.Model):
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
+    
 @app.route("/")
 def home():
     return jsonify(hello="world")
@@ -92,8 +101,8 @@ def register():
             return f"User {username} created."
         else:
             return error, 418
-
-    return render_template("register.html", url=os.getenv("URL"))
+    return "Register page pending", 501
+#    return render_template("register.html", url=os.getenv("URL"))
     # register.html
 
 @app.route('/login', methods=('GET', 'POST'))
@@ -118,4 +127,3 @@ def login():
 
 if __name__ == "__main__":
     app.run()
-    # add to wsgi.py
