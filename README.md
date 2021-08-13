@@ -21,7 +21,7 @@ Below are instructions to run the application, and obtaining the database schema
 
 1. Running a Flask development server
     ```bash
-    $ FLASK_DEBUG=1 python wsgi.py run
+    $ FLASK_DEBUG=1 python wsgi.py run --host=0.0.0.0
     ```
 
 2. Running docker-compose

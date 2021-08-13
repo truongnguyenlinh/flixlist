@@ -3,8 +3,10 @@ services:
   web:
     container_name: web
     build: .
-    ports:
-      - "80:80"
+    # expose:
+    #   - 5000
+    # ports:
+    #   - "80:80"
     restart: always
     env_file:
       - .env
@@ -22,5 +24,21 @@ services:
     volumes:
       - flixlist_db:/var/lib/postgresql/data
 
+  nginx:
+    container_name: nginx
+    image: jonasal/nginx-certbot:latest
+    restart: unless-stopped
+    environment:
+      - CERTBOT_EMAIL=truongnguyenlinh@outlook.com
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - nginx_secrets:/etc/letsencrypt
+      - ./user_conf.d:/etc/nginx/user_conf.d
+    depends_on:
+      - web
+
 volumes:
   flixlist_db:
+  nginx_secrets:
