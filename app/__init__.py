@@ -1,10 +1,60 @@
 import os
+import requests
 from flask_login import UserMixin
 from flask import Flask, escape, request, render_template, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
+
+# Constants for TMDB API
+# =====================================================
+API_KEY = "2cdd90f4142bcd5916204135c23506df"
+BASE_URL = "https://api.themoviedb.org/3"
+
+
+class MovieRequest:
+    TOP_RATED = (
+        BASE_URL + "/movie/top_rated?api_key=" + API_KEY + "&language=en-US&page=1"
+    )
+    TOP_RATED_TV = (
+        BASE_URL + "/tv/top_rated?api_key=" + API_KEY + "&language=en-US&page=1"
+    )
+
+    def movie_details(movie_id):
+        return BASE_URL + "/movie/" + movie_id + "?api_key=" + API_KEY
+
+    def movie_providers(movie_id):
+        return BASE_URL + "/movie/" + movie_id + "/watch/providers?api_key=" + API_KEY
+
+    def tv_details(tv_id):
+        return BASE_URL + "/tv/" + tv_id + "?api_key=" + API_KEY
+
+    def tv_providers(tv_id):
+        return BASE_URL + "/tv/" + tv_id + "/watch/providers?api_key=" + API_KEY
+
+    def search_movie(query):
+        return (
+            BASE_URL
+            + "/search/movie?api_key="
+            + API_KEY
+            + "&language=en-US&query="
+            + query
+            + "&page=1"
+        )
+
+    def search_tv(query):
+        return (
+            BASE_URL
+            + "/search/tv?api_key="
+            + API_KEY
+            + "&language=en-US&query="
+            + query
+            + "&page=1"
+        )
+
+
+# =====================================================
 
 app = Flask(__name__)
 app.config.from_object("config.Config")
@@ -28,7 +78,7 @@ class User(db.Model):
 
     @property
     def password(self):
-        raise AttributeError('password is not a readable attribute.')
+        raise AttributeError("password is not a readable attribute.")
 
     @password.setter
     def password(self, password):
@@ -42,7 +92,7 @@ class User(db.Model):
 #        self.password = password
 
     def __repr__(self):
-        return '<User: {}>'.format(self.username)
+        return "<User: {}>".format(self.username)
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -53,12 +103,41 @@ def home():
 
 @app.route("/flixlist/<menu_item>")
 def flixlist(menu_item):
-    rows = 10
-    return render_template("flixlist.html", title="FlixList", menu_item=menu_item, rows=rows)
+
+    # Check search button
+    query = request.args.get("search")
+    if query == None:
+        # Get Movies/TV Shows info
+        if menu_item == "Movies":
+            response = requests.get(MovieRequest.TOP_RATED)
+            info_to_display = ["title", "release_date", "Movies"]
+        elif menu_item == "TV Shows":
+            response = requests.get(MovieRequest.TOP_RATED_TV)
+            info_to_display = ["name", "first_air_date", "TV Shows"]
+    else:
+        # Search
+        if menu_item == "Movies":
+            response = requests.get(MovieRequest.search_movie(query))
+            info_to_display = ["title", "release_date", "Movies"]
+        elif menu_item == "TV Shows":
+            response = requests.get(MovieRequest.search_tv(query))
+            info_to_display = ["name", "first_air_date", "TV Shows"]
+
+    movies_data = response.json()
+    movies_data = movies_data["results"]
+
+    return render_template(
+        "flixlist.html",
+        title="FlixList",
+        menu_item=menu_item,
+        movies_data=movies_data,
+        info_to_display=info_to_display,
+    )
+
 
 @app.route("/friendlist")
 def friendlist():
-    rows = 3
+    rows = 3}
     return render_template("friendlist.html", title="Friend List", rows=rows, url=os.getenv("URL"))
 
 @app.route("/recommendations")
@@ -115,6 +194,39 @@ def login():
             return error, 418
 
     return render_template("login.html", url=os.getenv("URL"))
+
+@app.route("/details/<type>/<id>")
+def details(type, id):
+
+    # Get movies details and streming providers
+    if type == "Movies":
+        response = requests.get(MovieRequest.movie_details(id))
+        providers = requests.get(MovieRequest.movie_providers(id))
+        info_to_display = ["title", "release_date", "Movies"]
+    elif type == "TV Shows":
+        response = requests.get(MovieRequest.tv_details(id))
+        providers = requests.get(MovieRequest.tv_providers(id))
+        info_to_display = ["name", "first_air_date", "TV Shows"]
+    movie = response.json()
+    try:
+        providers = providers.json()["results"]["US"]["flatrate"]
+    except:
+        providers = [{"provider_name": "Not found"}]
+
+    return render_template(
+        "show_details.html",
+        title=movie[info_to_display[0]],
+        id=id,
+        movie=movie,
+        info_to_display=info_to_display,
+        providers=providers,
+    )
+
+
+@app.route("/login", methods=("GET", "POST"))
+def login():
+    return render_template("login.html", title="Login")
+
 
 if __name__ == "__main__":
     app.run()

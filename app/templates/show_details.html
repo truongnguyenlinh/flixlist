@@ -1,0 +1,124 @@
+{% extends 'header.html' %} {% block content %}
+<div class="container" style="margin-top: 20px;">
+    <div class="row justify-content-md-center">
+        <div class="media">
+        <img class="align-self-center mr-3" src="https://image.tmdb.org/t/p/original/{{ movie['poster_path'] }}" />
+        <div class="media-body">
+            <h3 class="mt-0">{{ movie[info_to_display[0]] }}</h5>
+            <h5 class="mt-0">{{ movie[info_to_display[1]].split("-")[0] }}</h5>
+            <h4 class="mt-0">Synopsis</h5>
+            <p>
+              {{ movie['overview'] }}
+            </p>
+      </div>
+        </div>
+    </div>
+    <div class="row justify-content-md-center">
+        <div class="col stats-block-1">
+            <span class="shows-detail" style="font-weight: bold">Score</span>
+        </div>
+        <div class="col stats-block-2">
+            <span class="shows-detail" style="font-weight: bold">Platform</span>
+        </div>
+        <div class="col stats-block-1">
+            <span class="shows-detail" style="font-weight: bold">Progress</span>
+        </div>
+        <div class="col stats-block-2">
+            <span class="shows-detail" style="font-weight: bold">Type</span>
+        </div>
+        <div class="col">
+            <div class="dropdown">
+                <button
+                  type="button"
+                  class="btn btn-secondary dropdown-toggle dropdown-toggle-split"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                  style="
+                    background-color: #e50914;
+                    margin-top: 20px;
+                  "
+                >
+                  My Score
+                </button>
+        
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                  <a class="dropdown-item" href="#">(10) Masterpiece</a>
+                  <a class="dropdown-item" href="#">(9) Great</a>
+                  <a class="dropdown-item" href="#">(8) Very Good</a>
+                  <a class="dropdown-item" href="#">(7) Good</a>
+                  <a class="dropdown-item" href="#">(6) Fine</a>
+                  <a class="dropdown-item" href="#">(5) Average</a>
+                  <a class="dropdown-item" href="#">(4) Bad</a>
+                  <a class="dropdown-item" href="#">(3) Very Bad</a>
+                  <a class="dropdown-item" href="#">(2) Horrible</a>
+                  <a class="dropdown-item" href="#">(1) Appalling</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-md-center">
+        <div class="col stats-block-1" style="margin-top: 0px;">
+            <span class="shows-detail">{{ movie['vote_average'] }}</span>
+        </div>
+        <div class="col stats-block-2" style="margin-top: 0px;">
+            {% for provider in providers %}
+            <p class="shows-detail">{{ provider['provider_name'] }}</p>
+            {% endfor %}
+        </div>
+        <div class="col stats-block-1" style="margin-top: 0px;">
+            <span class="shows-detail">On Hold</span>
+        </div>
+        <div class="col stats-block-2" style="margin-top: 0px;">
+            <span class="shows-detail">Movie</span>
+        </div>
+        <div class="col">
+            <div class="dropdown">
+                <button
+                  type="button"
+                  class="btn btn-secondary dropdown-toggle dropdown-toggle-split"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                  style="
+                    background-color: #e50914;
+                    margin-top: 0px;
+                  "
+                >
+                  Add +
+                </button>
+        
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                  <a
+                    class="dropdown-item"
+                    href="#"
+                    >Currently Watching</a
+                  >
+                  <a
+                    class="dropdown-item"
+                    href="#"
+                    >Completed</a
+                  >
+                  <a
+                    class="dropdown-item"
+                    href="#"
+                    >On Hold</a
+                  >
+                  <a
+                    class="dropdown-item"
+                    href="#"
+                    >Dropped</a
+                  >
+                  <a
+                    class="dropdown-item"
+                    href="#"
+                    >Plan to Watch</a
+                  >
+                </div>
+              </div>
+        </div>
+    </div>
+</div>
+
+  {% endblock %}
+</div>

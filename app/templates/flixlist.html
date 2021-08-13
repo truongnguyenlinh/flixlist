@@ -1,9 +1,12 @@
 {% extends 'header.html' %} {% block content %}
-
 <div class="container">
   <div class="row justify-content-md-center">
     <div class="col-md-auto">
-      <img src="/static/img/flixlist_logo.png" alt="..." class="img-fluid" />
+      <img
+        src="/static/img/flixlist_logo2.png"
+        alt="FlixList"
+        class="img-fluid"
+      />
     </div>
   </div>
   <div class="row justify-content-md-center">
@@ -52,8 +55,13 @@
           >
           <a
             class="dropdown-item"
-            href="{{url_for('flixlist', menu_item='All Shows')}}"
-            >All Shows</a
+            href="{{url_for('flixlist', menu_item='Movies')}}"
+            >Movies</a
+          >
+          <a
+            class="dropdown-item"
+            href="{{url_for('flixlist', menu_item='TV Shows')}}"
+            >TV Shows</a
           >
         </div>
       </div>
@@ -65,8 +73,10 @@
           type="search"
           placeholder="Search"
           aria-label="Search"
+          name="search"
         />
         <button
+          href="#"
           class="btn btn-primary btn-lg"
           type="submit"
           style="
@@ -80,48 +90,74 @@
       </form>
     </div>
   </div>
-  {% for row in range(rows) %}
   <div class="row justify-content-center">
-    {% for col in range(4) %}
-    <div class="col">
-      <div class="card project_card" style="width: auto">
+    {% for movie in movies_data %}
+    <div class="col card-group">
+      <div
+        class="card text-white"
+        style="width: auto; background-color: #213465; border-color: #070525"
+      >
         <img
-          src="/static/img/construction.jpg"
+          src="https://image.tmdb.org/t/p/original/{{ movie['poster_path'] }}"
           class="card-img-top"
-          alt="..."
+          alt="{{ movie['title'] }}"
         />
         <div class="card-body">
-          <h5 class="card-title">Movie (1995)</h5>
-          <p class="card-text">Platform</p>
-          <p class="card-text">Personal rating</p>
-          <p class="card-text">Rating:</p>
-          <p class="card-text">TV Show</p>
-          <p class="card-text">Tags</p>
-          <a href="#" class="btn btn-primary" style="background-color: #e50914"
-            >Go somewhere</a
+          <span class="badge badge-pill badge-success">Currently Watching</span>
+          <h5 class="card-title">
+            {{ movie[info_to_display[0]] }} ({{
+            movie[info_to_display[1]].split("-")[0] }})
+          </h5>
+          <h5 class="card-text" style="color: #213465">White Space</h5>
+
+          <a
+            href="{{ url_for('details', type=info_to_display[2], id=movie['id']) }}"
+            class="btn btn-primary"
+            style="
+              background-color: #e50914;
+              border-color: #213465;
+              position: absolute;
+              bottom: 0;
+              left: 0;
+              right: 0;
+              margin: auto;
+            "
+            >Details</a
           >
         </div>
       </div>
     </div>
     {% endfor %}
   </div>
-  {% endfor %}
 </div>
-<body>
-  <footer class="footer-container text-center">
-      <div class="container">
-          <div class="row">
-              <div class="col-xs-12">
-                  <p>
-                      Made with 💜 by <a href="https://github.com/Hunajpu" target="_blank" rel="noopener noreferrer">Rodrigo Luna Reyes</a>, <a href="https://github.com/truongnguyenlinh" target="_blank" rel="noopener noreferrer">Linh Truong</a>  and <a href="https://github.com/nanonite9" target="_blank" rel="noopener noreferrer">Ayana Nithey</a>.
-                  </p>
-              </div>
-          </div>
+<footer class="footer-container text-center">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12">
+        <p>
+          Made with 💜 by
+          <a
+            href="https://github.com/Hunajpu"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Rodrigo Luna Reyes</a
+          >,
+          <a
+            href="https://github.com/truongnguyenlinh"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Linh Truong</a
+          >
+          and
+          <a
+            href="https://github.com/nanonite9"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Ayana Nithey</a
+          >.
+        </p>
       </div>
-  </footer>
-
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-</body>
+    </div>
+  </div>
+</footer>
 {% endblock %}
