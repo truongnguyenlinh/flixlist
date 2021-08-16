@@ -7,8 +7,18 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
 
+
+app = Flask(__name__)
+app.config.from_object("config.Config")
+db = SQLAlchemy(app)
+migrate = Migrate(app, db)
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_message = "You must be logged in to access this page."
+login_manager.login_view = "auth.login"
+
+
 # Constants for TMDB API
-# =====================================================
 API_KEY = "2cdd90f4142bcd5916204135c23506df"
 BASE_URL = "https://api.themoviedb.org/3"
 
@@ -54,18 +64,6 @@ class MovieRequest:
         )
 
 
-# =====================================================
-
-app = Flask(__name__)
-app.config.from_object("config.Config")
-db = SQLAlchemy(app)
-migrate = Migrate(app, db)
-login_manager = LoginManager()
-login_manager.init_app(app)
-login_manager.login_message = "You must be logged in to access this page."
-login_manager.login_view = "auth.login"
-
-
 class User(db.Model):
     __tablename__ = "users"
 
@@ -94,12 +92,16 @@ class User(db.Model):
     def __repr__(self):
         return "<User: {}>".format(self.username)
 
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
+
+
 @app.route("/")
 def home():
     return jsonify(hello="world")
+
 
 @app.route("/flixlist/<menu_item>")
 def flixlist(menu_item):
@@ -140,14 +142,17 @@ def friendlist():
     rows = 3}
     return render_template("friendlist.html", title="Friend List", rows=rows, url=os.getenv("URL"))
 
+
 @app.route("/recommendations")
 def recommendations():
     rows = 3
     return render_template("recommendations.html", title="Recommendations", rows=rows, url=os.getenv("URL"))
 
+
 @app.route("/health")
 def health():
     return ""
+
 
 @app.route("/register", methods=("GET", "POST"))
 # /register
@@ -175,6 +180,7 @@ def register():
     return render_template("register.html", url=os.getenv("URL"))
     # register.html
 
+
 @app.route('/login', methods=('GET', 'POST'))
 def login():
     if request.method == "POST":
@@ -195,6 +201,7 @@ def login():
 
     return render_template("login.html", url=os.getenv("URL"))
 
+  
 @app.route("/details/<type>/<id>")
 def details(type, id):
 
