@@ -73,6 +73,7 @@ class User(db.Model):
     first_name = db.Column(db.String(60), index=True)
     last_name = db.Column(db.String(60), index=True)
     password_hash = db.Column(db.String(128))
+    recommender_id = db.Column(db.Integer, index=True, unique=True)
 
     @property
     def password(self):
@@ -139,7 +140,7 @@ def flixlist(menu_item):
 
 @app.route("/friendlist")
 def friendlist():
-    rows = 3}
+    rows = 3
     return render_template("friendlist.html", title="Friend List", rows=rows, url=os.getenv("URL"))
 
 
@@ -230,10 +231,10 @@ def details(type, id):
     )
 
 
-@app.route("/login", methods=("GET", "POST"))
-def login():
-    return render_template("login.html", title="Login")
-
+#@app.route("/login", methods=("GET", "POST"))
+#def login():
+#    return render_template("login.html", title="Login")
+# commented out because of error (two routes)
 
 if __name__ == "__main__":
     app.run()
