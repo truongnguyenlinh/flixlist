@@ -16,7 +16,7 @@
         <title>{{ title }}</title>
     </head>
     
-    <body">
+    <body>
 		<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #E50914;">
 		  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 		    <span class="navbar-toggler-icon"></span>
@@ -24,22 +24,35 @@
 		
 		  <div class="collapse navbar-collapse" id="navbarSupportedContent">
 		    <ul class="navbar-nav mr-auto">
-		      <li class="nav-item active">
-		        <a class="nav-link" href="{{url_for('flixlist', menu_item='Movies')}}">FlixList <span class="sr-only">(current)</span></a>
-		      </li>
-		      <li class="nav-item active">
-		        <a class="nav-link" href="">FlixHistory <span class="sr-only">(current)</span></a>
-		      </li>
-		      <li class="nav-item active">
-		        <a class="nav-link" href="">RecsFlix <span class="sr-only">(current)</span></a>
-		      </li>
-			  <li class="nav-item active">
-		        <a class="nav-link" href="">FriendFlix <span class="sr-only">(current)</span></a>
-		      </li>
-			  <li class="nav-item active">
-		        <a class="nav-link" href="">Login <span class="sr-only">(current)</span></a>
-		      </li>
-		  </div>
+				{% if current_user.is_authenticated %}
+				<li class="nav-item active">
+					<a class="nav-link" href="{{url_for('flixlist', menu_item='Movies')}}">FlixList <span class="sr-only">(current)</span></a>
+		      	</li>
+		      	<li class="nav-item active">
+		        	<a class="nav-link" href="">History <span class="sr-only">(current)</span></a>
+		      	</li>
+		      	<li class="nav-item active">
+		        	<a class="nav-link" href="">Recommendations <span class="sr-only">(current)</span></a>
+		     	</li>
+			  	<li class="nav-item active">
+		        	<a class="nav-link" href="">FriendList <span class="sr-only">(current)</span></a>
+				</li>
+				{% endif %}
+				{% if not current_user.is_authenticated %}
+				<li class="nav-item active">
+					<a class="nav-link" href="{{ url_for('auth.login') }}">Login <span class="sr-only">(current)</span></a>
+				</li>
+				<li class="nav-item active">
+					<a class="nav-link" href="{{ url_for('auth.register') }}">Sign Up <span class="sr-only">(current)</span></a>
+				</li>
+				{% endif %}
+				{% if current_user.is_authenticated %}
+				<li>
+					<a class="nav-link" href="{{ url_for('auth.logout') }}">Logout <span class="sr-only">(current)</span></a>  
+				</li>
+				{% endif %}
+				
+			</div>
 		</nav>
     
 	    {% block content %}

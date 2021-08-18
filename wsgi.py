@@ -1,4 +1,5 @@
-from app import app, db, User
+from app import app, db
+from app.models import User
 from flask.cli import FlaskGroup
 
 
