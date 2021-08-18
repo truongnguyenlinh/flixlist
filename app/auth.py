@@ -15,7 +15,7 @@ def login():
 
 @auth.route('/login', methods=["POST"])
 def login_post():
-    username = request.form.get('username')
+    username = request.form.get("username")
     password = request.form.get("password")
     user = User.query.filter_by(username=username).first()
     error = None
