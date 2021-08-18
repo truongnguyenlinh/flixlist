@@ -5,8 +5,6 @@ services:
     build: .
     # expose:
     #   - 5000
-    # ports:
-    #   - "80:80"
     restart: always
     env_file:
       - .env
@@ -39,6 +37,60 @@ services:
     depends_on:
       - web
 
+  cadvisor:
+    container_name: cadvisor
+    image: gcr.io/cadvisor/cadvisor:latest
+    restart: unless-stopped
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+
+  prometheus:
+    container_name: prometheus
+    image: prom/prometheus:latest
+    restart: unless-stopped
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    depends_on:
+      - cadvisor
+      - node-exporter
+
+  node-exporter:
+    container_name: node-exporter
+    image: prom/node-exporter
+    restart: unless-stopped
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.sysfs=/host/sys'
+      - '--path.rootfs=/rootfs'
+      - '--collector.filesystem.ignored-mount-points="^(/rootfs|/host|)/(sys|proc|dev|host|etc)($$|/)"'
+      - '--collector.filesystem.ignored-fs-types="^(sys|proc|auto|cgroup|devpts|ns|au|fuse\.lxc|mqueue)(fs|)$$"'
+
+  grafana:
+    container_name: grafana
+    image: grafana/grafana
+    user: "1000"
+    environment:
+      - GF_SERVER_PROTOCOL=http
+      - GF_SERVER_ROOT_URL=https://www.flixlist.tech/grafana/
+      - GF_SERVER_DOMAIN=www.flixlist.tech
+    volumes:
+      - grafana_data:/var/lib/grafana
+    depends_on:
+      - prometheus
+    restart: unless-stopped
+
 volumes:
   flixlist_db:
   nginx_secrets:
+  grafana_data:
+  prometheus_data:
