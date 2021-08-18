@@ -34,7 +34,7 @@ def downgrade():
     sa.Column('username', sa.VARCHAR(length=60), autoincrement=False, nullable=True),
     sa.Column('first_name', sa.VARCHAR(length=60), autoincrement=False, nullable=True),
     sa.Column('last_name', sa.VARCHAR(length=60), autoincrement=False, nullable=True),
-    sa.Column('password_hash', sa.VARCHAR(length=128), autoincrement=False, nullable=True),
+    sa.Column('password', sa.VARCHAR(length=128), autoincrement=False, nullable=True),
     sa.PrimaryKeyConstraint('id', name='users_pkey')
     )
     op.create_index('ix_users_username', 'users', ['username'], unique=False)
