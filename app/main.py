@@ -68,7 +68,6 @@ def profile():
 @login_required
 def flixlist(menu_item):
 
-
     query = request.args.get("search")
     if query == None:
         if menu_item == "Movies":
@@ -102,14 +101,18 @@ def flixlist(menu_item):
 @login_required
 def friendlist():
     rows = 3
-    return render_template("friendlist.html", title="Friend List", rows=rows, url=os.getenv("URL"))
+    return render_template(
+        "friendlist.html", title="Friend List", rows=rows, url=os.getenv("URL")
+    )
 
 
 @main.route("/recommendations")
 @login_required
 def recommendations():
     rows = 3
-    return render_template("recommendations.html", title="Recommendations", rows=rows, url=os.getenv("URL"))
+    return render_template(
+        "recommendations.html", title="Recommendations", rows=rows, url=os.getenv("URL")
+    )
 
 
 @main.route("/details/<type>/<id>")

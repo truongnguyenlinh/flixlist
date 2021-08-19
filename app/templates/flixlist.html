@@ -30,37 +30,37 @@
         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
           <a
             class="dropdown-item"
-            href="{{url_for('flixlist', menu_item='Currently Watching')}}"
+            href="{{url_for('main.flixlist', menu_item='Currently Watching')}}"
             >Currently Watching</a
           >
           <a
             class="dropdown-item"
-            href="{{url_for('flixlist', menu_item='Completed')}}"
+            href="{{url_for('main.flixlist', menu_item='Completed')}}"
             >Completed</a
           >
           <a
             class="dropdown-item"
-            href="{{url_for('flixlist', menu_item='On Hold')}}"
+            href="{{url_for('main.flixlist', menu_item='On Hold')}}"
             >On Hold</a
           >
           <a
             class="dropdown-item"
-            href="{{url_for('flixlist', menu_item='Dropped')}}"
+            href="{{url_for('main.flixlist', menu_item='Dropped')}}"
             >Dropped</a
           >
           <a
             class="dropdown-item"
-            href="{{url_for('flixlist', menu_item='Plan to Watch')}}"
+            href="{{url_for('main.flixlist', menu_item='Plan to Watch')}}"
             >Plan to Watch</a
           >
           <a
             class="dropdown-item"
-            href="{{url_for('flixlist', menu_item='Movies')}}"
+            href="{{url_for('main.flixlist', menu_item='Movies')}}"
             >Movies</a
           >
           <a
             class="dropdown-item"
-            href="{{url_for('flixlist', menu_item='TV Shows')}}"
+            href="{{url_for('main.flixlist', menu_item='TV Shows')}}"
             >TV Shows</a
           >
         </div>
@@ -111,7 +111,7 @@
           <h5 class="card-text" style="color: #213465">White Space</h5>
 
           <a
-            href="{{ url_for('details', type=info_to_display[2], id=movie['id']) }}"
+            href="{{ url_for('main.details', type=info_to_display[2], id=movie['id']) }}"
             class="btn btn-primary"
             style="
               background-color: #e50914;
