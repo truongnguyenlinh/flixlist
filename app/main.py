@@ -65,13 +65,11 @@ def index():
 
 
 @main.route("/profile")
-@login_required
 def profile():
     return render_template("profile.html", name=current_user.name)
 
 
 @main.route("/<menu_item>")
-@login_required
 def flixlist(menu_item):
 
     query = request.args.get("search")
@@ -104,7 +102,6 @@ def flixlist(menu_item):
 
 
 @main.route("/friendlist")
-@login_required
 def friendlist():
     rows = 3
     return render_template(
@@ -113,7 +110,6 @@ def friendlist():
 
 
 @main.route("/recommendations")
-@login_required
 def recommendations():
     # TO DO - Asign user watched movies and TV shows from DB to respective varables this is a static example
     user_watched_movies = [45, 65, 12, 508943]
@@ -164,7 +160,6 @@ def recommendations():
 
 
 @main.route("/details/<type>/<id>")
-@login_required
 def details(type, id):
 
     # Get movies details and streming providers
