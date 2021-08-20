@@ -26,11 +26,17 @@ class MovieRequest:
     def movie_providers(movie_id):
         return BASE_URL + "/movie/" + movie_id + "/watch/providers?api_key=" + API_KEY
 
+    def movie_recommendations(movie_id):
+        return BASE_URL + "/movie/" + movie_id + "/recommendations?api_key=" + API_KEY
+
     def tv_details(tv_id):
         return BASE_URL + "/tv/" + tv_id + "?api_key=" + API_KEY
 
     def tv_providers(tv_id):
         return BASE_URL + "/tv/" + tv_id + "/watch/providers?api_key=" + API_KEY
+
+    def tv_recommendations(tv_id):
+        return BASE_URL + "/tv/" + tv_id + "/recommendations?api_key=" + API_KEY
 
     def search_movie(query):
         return (
@@ -109,11 +115,50 @@ def friendlist():
 @main.route("/recommendations")
 @login_required
 def recommendations():
-    rows = 3
+    # TO DO - Asign user watched movies and TV shows from DB to respective varables this is a static example
+    user_watched_movies = [45, 65, 12, 508943]
+    user_watched_tv = [62, 82134]
+    # =================================================================
+    movies_data = []
+    tv_data = []
+    info_to_display = [
+        "title",
+        "release_date",
+        "Movies",
+        "name",
+        "first_air_date",
+        "TV Shows",
+    ]
+
+    # Get recommendations for each movie watched by the user
+    for user_movie in user_watched_movies:
+        response = requests.get(MovieRequest.movie_recommendations(str(user_movie)))
+        try:
+            movie_recommendations = response.json()["results"]
+        except:
+            movie_recommendations = []
+        for recommendation in movie_recommendations:
+            if int(recommendation["id"]) not in user_watched_movies:
+                print(recommendation["id"])
+                movies_data.append(recommendation)
+
+    # Get recommendations for each tv show watched by the user
+    for user_tv in user_watched_tv:
+        response = requests.get(MovieRequest.tv_recommendations(str(user_tv)))
+        try:
+            tv_recommendations = response.json()["results"]
+        except:
+            tv_recommendations = []
+        for recommendation in tv_recommendations:
+            if int(recommendation["id"]) not in user_watched_tv:
+                print(recommendation["id"])
+                tv_data.append(recommendation)
+
     return render_template(
         "recommendations.html",
         title="Recommendations",
-        rows=rows,
+        movies_data=movies_data,
+        tv_data=tv_data,
         url=os.getenv("URL"),
     )
 
