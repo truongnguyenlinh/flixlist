@@ -1,6 +1,6 @@
 import os
 import requests
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, url_for, redirect
 from flask_login import login_required, current_user
 
 
@@ -61,7 +61,7 @@ class MovieRequest:
 
 @main.route("/")
 def index():
-    return render_template("index.html")
+    return redirect(url_for("auth.login", _external=True))
 
 
 @main.route("/profile")
@@ -75,7 +75,7 @@ def profile():
 def flixlist(menu_item):
 
     query = request.args.get("search")
-    if query == None:
+    if query is None:
         if menu_item == "Movies":
             response = requests.get(MovieRequest.TOP_RATED)
             info_to_display = ["title", "release_date", "Movies"]
@@ -179,7 +179,7 @@ def details(type, id):
     movie = response.json()
     try:
         providers = providers.json()["results"]["US"]["flatrate"]
-    except:
+    except KeyError:
         providers = [{"provider_name": "Not found"}]
 
     return render_template(
