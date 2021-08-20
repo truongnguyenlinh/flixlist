@@ -68,9 +68,8 @@ def profile():
 @login_required
 def flixlist(menu_item):
 
-
     query = request.args.get("search")
-    if query == None:
+    if query is None:
         if menu_item == "Movies":
             response = requests.get(MovieRequest.TOP_RATED)
             info_to_display = ["title", "release_date", "Movies"]
@@ -102,14 +101,21 @@ def flixlist(menu_item):
 @login_required
 def friendlist():
     rows = 3
-    return render_template("friendlist.html", title="Friend List", rows=rows, url=os.getenv("URL"))
+    return render_template(
+        "friendlist.html", title="Friend List", rows=rows, url=os.getenv("URL")
+    )
 
 
 @main.route("/recommendations")
 @login_required
 def recommendations():
     rows = 3
-    return render_template("recommendations.html", title="Recommendations", rows=rows, url=os.getenv("URL"))
+    return render_template(
+        "recommendations.html",
+        title="Recommendations",
+        rows=rows,
+        url=os.getenv("URL"),
+    )
 
 
 @main.route("/details/<type>/<id>")
@@ -128,7 +134,7 @@ def details(type, id):
     movie = response.json()
     try:
         providers = providers.json()["results"]["US"]["flatrate"]
-    except:
+    except KeyError:
         providers = [{"provider_name": "Not found"}]
 
     return render_template(

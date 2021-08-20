@@ -3,6 +3,7 @@ from werkzeug.security import generate_password_hash
 from flask_login import login_user, logout_user, login_required
 from .models import User
 from . import db
+import os
 
 
 auth = Blueprint("auth", __name__)
@@ -13,7 +14,7 @@ def login():
     return render_template("login.html", title="Login")
 
 
-@auth.route('/login', methods=["POST"])
+@auth.route("/login", methods=["POST"])
 def login_post():
     username = request.form.get("username")
     password = request.form.get("password")
@@ -22,7 +23,7 @@ def login_post():
 
     if not user or not user.verify_password(password):
         flash("Please check your login details and try again.")
-        return redirect(url_for('auth.login', _external=True))
+        return redirect(url_for("auth.login", _external=True))
 
     if error:
         return error, 418
@@ -39,12 +40,13 @@ def register():
 def register_post():
     username = request.form.get("username")
     password = request.form.get("password")
+    email = request.form.get("email")
     user = User.query.filter_by(username=username).first()
     error = None
 
-    if user: 
-        flash('Email address already exists')
-        return redirect(url_for('auth.register', _external=True))
+    if user:
+        flash("Email address already exists")
+        return redirect(url_for("auth.register", _external=True))
     elif not username:
         error = "Please enter a valid username."
     elif not password:
@@ -54,11 +56,11 @@ def register_post():
         return error, 418
     else:
         new_user = User(
-            email=email, 
-            username=username, 
-            password=generate_password_hash(password))
-            # TODO: add fields for first_name and user_name columns
-
+            email=email,
+            username=username,
+            password_hash=generate_password_hash(password),
+        )
+        # TODO: add fields for first_name and user_name columns
 
         db.session.add(new_user)
         db.session.commit()
