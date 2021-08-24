@@ -29,7 +29,7 @@ def login_post():
     if error:
         return error, 418
     else:
-        return render_template('flixlist.html', name=current_user.name)
+        return render_template(url_for('flixlist', menu_item='Movies', name=current_user.name))
 
 
 @auth.route("/register")
