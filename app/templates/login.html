@@ -20,15 +20,6 @@
 				{% endwith %}
 			</div>
 			<form class="form-signin" method="POST" action="/login">
-				<div class="box">
-					{% with messages = get_flashed_messages() %}
-					{% if messages %}
-					<div class="notification is-danger">
-						{{ messages[0] }}
-					</div>
-					{% endif %}
-					{% endwith %}
-				</div>
 				<label for="inputUser" class="sr-only">User</label>
 				<input type="text" id="inputUser" class="form-control" placeholder="Username" name="username" required
 					autofocus />
