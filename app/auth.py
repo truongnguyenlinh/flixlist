@@ -18,6 +18,7 @@ def login():
 def login_post():
     username = request.form.get("username")
     password = request.form.get("password")
+    remember = True if request.form.get("remember") else False
     user = User.query.filter_by(username=username).first()
     error = None
 
@@ -28,7 +29,7 @@ def login_post():
     if error:
         return error, 418
     else:
-        return redirect("/", url=os.getenv("URL"))
+        return render_template('flixlist.html', name=current_user.name)
 
 
 @auth.route("/register")
@@ -39,6 +40,8 @@ def register():
 @auth.route("/register", methods=["POST"])
 def register_post():
     username = request.form.get("username")
+    first_name = request.form.get("first_name")
+    last_name = request.form.get("last_name")
     password = request.form.get("password")
     email = request.form.get("email")
     user = User.query.filter_by(username=username).first()
@@ -47,10 +50,6 @@ def register_post():
     if user:
         flash("Email address already exists")
         return redirect(url_for("auth.register", _external=True))
-    elif not username:
-        error = "Please enter a valid username."
-    elif not password:
-        error = "Please enter a valid password."
 
     if error:
         return error, 418
@@ -58,9 +57,10 @@ def register_post():
         new_user = User(
             email=email,
             username=username,
+            first_name=first_name,
+            last_name=last_name,
             password_hash=generate_password_hash(password),
         )
-        # TODO: add fields for first_name and user_name columns
 
         db.session.add(new_user)
         db.session.commit()
@@ -72,4 +72,4 @@ def register_post():
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for("main.index", _external=True))
+    return redirect(url_for("auth.login", _external=True))

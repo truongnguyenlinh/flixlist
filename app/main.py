@@ -58,12 +58,6 @@ def index():
     return redirect(url_for("auth.login", _external=True))
 
 
-@main.route("/profile")
-@login_required
-def profile():
-    return render_template("profile.html", name=current_user.name)
-
-
 @main.route("/<menu_item>")
 @login_required
 def flixlist(menu_item):

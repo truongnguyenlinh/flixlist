@@ -12,6 +12,7 @@ class User(db.Model, UserMixin):
     first_name = db.Column(db.String(60), index=True)
     last_name = db.Column(db.String(60), index=True)
     password = db.Column(db.String(128))
+    movies = db.Column(db.ARRAY(db.Integer))
 
     @property
     def password(self):
