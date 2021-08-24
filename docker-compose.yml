@@ -51,9 +51,10 @@ services:
     container_name: prometheus
     image: prom/prometheus:latest
     restart: unless-stopped
+    ports:
+      - 9090:9090
     volumes:
-      - ./prometheus.yml:/etc/prometheus/prometheus.yml
-      - prometheus_data:/prometheus
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
     depends_on:
@@ -64,6 +65,8 @@ services:
     container_name: node-exporter
     image: prom/node-exporter
     restart: unless-stopped
+    ports:
+      - 9100:9100
     volumes:
       - /proc:/host/proc:ro
       - /sys:/host/sys:ro
@@ -77,12 +80,10 @@ services:
 
   grafana:
     container_name: grafana
-    image: grafana/grafana
+    image: grafana/grafana:latest
     user: "1000"
-    environment:
-      - GF_SERVER_PROTOCOL=http
-      - GF_SERVER_ROOT_URL=https://www.flixlist.tech/grafana/
-      - GF_SERVER_DOMAIN=www.flixlist.tech
+    ports:
+      - 3000:3000
     volumes:
       - grafana_data:/var/lib/grafana
     depends_on:
@@ -93,4 +94,3 @@ volumes:
   flixlist_db:
   nginx_secrets:
   grafana_data:
-  prometheus_data:
